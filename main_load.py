@@ -10,9 +10,9 @@ with open('config.json') as f:
 # 提取用户名和密码
 usernames_str = config.get("USERNAME_ARR")
 passwords_str = config.get("PASSWORD_ARR")
-
+pushplus_key = config.get("PUSHPLUS_KEY") 
 if not usernames_str or not passwords_str:
-    raise ValueError("Please set USERNAME_ARR and PASSWORD_ARR in config.json")
+    raise ValueError("请在config.json里设置USERNAME_ARR 和 PASSWORD_ARR 变量 ")
 
 usernames = usernames_str.split(',')
 passwords = passwords_str.split(',')
@@ -129,32 +129,62 @@ def hide_string(s: str) -> str:
         return ''
     return s[:3] + '****' + s[-4:]
 
+def send_pushplus_message(title, content):
+    pushplus_api_url = "http://www.pushplus.plus/send"
+    payload = {
+        "token": pushplus_key,
+        "title": title,
+        "content": content,
+        "template": "json", 
+    }
+    
+    response = requests.post(pushplus_api_url, json=payload)
+    return response.json()
 
 def pause(username, password):
-    hide_name = hide_string(username)
-    leigod_api = LeigodAPI()
+    hide_name = hide_string(username)  # 隐藏用户名的函数
+    leigod_api = LeigodAPI()  # 创建 LeigodAPI 的实例
 
-    if username and password:
+    message = []  # 用来保存推送的消息内容
+
+    if username and password:  # 检查用户名和密码是否为空
         try:
-            print(f"{hide_name}: Logging in")
-            leigod_api.login(username, password)
-            is_paused = leigod_api.is_time_paused()
-            print(f"{hide_name}: Getting pause status: {is_paused}")
+            print(f"{hide_name}: 正在登录")
+            leigod_api.login(username, password)  # 登录
+            is_paused = leigod_api.is_time_paused()  # 获取暂停状态
+            # 判断时长是否暂停
+            if is_paused:
+                print(f"{hide_name}: 时长处于暂停状态")
+                message.append(f"{hide_name} - 时长暂停: 时长已暂停")
+            else:
+                print(f"{hide_name}: 时长处于未暂停状态")
+                message.append(f"{hide_name} - 时长未暂停: 当前时长未暂停")
 
-            if not is_paused:
-                print(f"{hide_name}: Time is not paused, trying to pause time")
-                leigod_api.pause_time()
-                is_paused = leigod_api.is_time_paused()
-                print(f"{hide_name}: Getting pause status again: {is_paused}")
+            if not is_paused:  # 如果时长未暂停
+                print(f"{hide_name}: 时间未暂停，正在尝试暂停时间")
+                leigod_api.pause_time()  # 尝试暂停时间
+                is_paused = leigod_api.is_time_paused()  # 再次获取暂停状态
+                # 判断暂停结果
+                if is_paused:
+                    print(f"{hide_name}: 时长处于暂停状态")
+                    message.append(f"{hide_name} - 时长暂停: 时长已成功暂停")
+                else:
+                    print(f"{hide_name}: 时长处于未暂停状态")
+                    message.append(f"{hide_name} - 时长暂停失败: 时长暂停失败")
 
         except Exception as e:
             print(f"{hide_name}: {str(e)}")
+            message.append(f"{hide_name} - 错误: {str(e)}")
             return False
     else:
-        print(f"{hide_name}: The username or password is empty, please check config.json")
-        return False
+        print(f"{hide_name}: 用户名或密码为空，请检查 config.json 配置文件")
+        message.append(f"{hide_name} - 错误: 用户名或密码为空")
 
+    # 合并所有消息并发送一次PushPlus通知
+    print(f"发送的推送消息内容: {message}")
+    send_pushplus_message(f"{hide_name} - 时长状态更新", "\n".join(message))
     return True
+
 
 
 if __name__ == "__main__":
@@ -168,4 +198,4 @@ if __name__ == "__main__":
         print('-----------------------')
 
     if not success_flag:
-        print('Something went wrong! please check the logs.')
+        print('出现问题！请检查日志。')
