@@ -18,9 +18,9 @@
 7. 文件后缀：py json
 
 ### 定时任务
-1.名称：main_load.py
-2.命令/脚本：task cjw414522569_leigod-auto-python/main_load.py
-3.定时规则（表示每天早上6点15分自动暂停雷神加速器的时长）：15 6 * * *
+1. 名称：main_load.py
+2. 命令/脚本：task cjw414522569_leigod-auto-python/main_load.py
+3. 定时规则（表示每天早上6点15分自动暂停雷神加速器的时长）：15 6 * * *
 
 
 ## References
