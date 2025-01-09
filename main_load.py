@@ -154,11 +154,11 @@ def pause(username, password):
             is_paused = leigod_api.is_time_paused()  # 获取暂停状态
             # 判断时长是否暂停
             if is_paused:
-                print(f"{hide_name}: 时长处于暂停状态")
-                message.append(f"{hide_name} - 时长暂停: 时长已暂停")
+                print(f"{hide_name}: 当前状态：时长处于暂停状态")
+                message.append(f"{hide_name} - 当前状态：时长处于暂停状态")
             else:
-                print(f"{hide_name}: 时长处于未暂停状态")
-                message.append(f"{hide_name} - 时长未暂停: 当前时长未暂停")
+                print(f"{hide_name}: 当前状态：时长处于未暂停状态")
+                message.append(f"{hide_name} - 当前状态：时长处于未暂停状态")
 
             if not is_paused:  # 如果时长未暂停
                 print(f"{hide_name}: 时间未暂停，正在尝试暂停时间")
@@ -167,10 +167,10 @@ def pause(username, password):
                 # 判断暂停结果
                 if is_paused:
                     print(f"{hide_name}: 时长处于暂停状态")
-                    message.append(f"{hide_name} - 时长暂停: 时长已成功暂停")
+                    message.append(f"{hide_name} - 当前状态：: 时长已成功暂停")
                 else:
                     print(f"{hide_name}: 时长处于未暂停状态")
-                    message.append(f"{hide_name} - 时长暂停失败: 时长暂停失败")
+                    message.append(f"{hide_name} - 当前状态：: 时长暂停失败")
 
         except Exception as e:
             print(f"{hide_name}: {str(e)}")
