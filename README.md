@@ -3,7 +3,7 @@
 # 使用说明
 ## 本地运行
 1. git clone https://github.com/cjw414522569/leigod-auto-python.git
-2. 注册微信推送服务http://www.pushplus.plus/，拿到token
+2. 注册微信推送服务http://www.pushplus.plus  ，拿到token
 3. 将 config.json 文件中的 USERNAME_ARR、PASSWORD_ARR、PUSHPLUS_KEY值修改为你自己的雷神账号、密码、pushplus的token
 4. 此脚本依赖的 Python 库为：requests
 5. 运行python main.py
