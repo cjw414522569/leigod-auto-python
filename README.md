@@ -1,5 +1,5 @@
 # leigod-auto-python
-适用于青龙面板，本地运行
+适用于青龙面板or本地运行
 # 使用说明
 ## 本地运行
 1. git clone https://github.com/cjw414522569/leigod-auto-python.git
