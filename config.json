@@ -1,5 +1,5 @@
 {
-  "USERNAME_ARR": "账号",
-  "PASSWORD_ARR": "密码",
-  "PUSHPLUS_KEY": "*******"
+  "USERNAME_ARR": "user1,user2,user3",
+  "PASSWORD_ARR": "password1,password2,password3",
+  "PUSHPLUS_KEY": "your_pushplus_api_token"
 }
